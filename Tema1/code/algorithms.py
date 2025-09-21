@@ -242,24 +242,54 @@ def breadth_first_tree_search(problem: Problem) -> Node:
 # TODO: visualize
 def breadth_first_graph_search(problem: Problem, visualize=None) -> Node:
     """Search the shallowest nodes in the search tree first."""
+
+    # Se crea el Nodo raiz, con el estado inicial
+
     node = Node(problem.initial)
+
+    #    Si estado incial ya es meta, se devuelve
     if problem.goal_test(node.state):
         return node
+
+    #   cola FIFO con el nodo inicial, lista de nodos por visitar
+
     frontier = deque([node])
+    # conjunto vacío de estados ya explorados
     explored = set()
+    
+    # mientras la frontera no este vacía, seguimos
     while frontier:
         node = frontier.popleft()
+        # se añade estado a explorados
         explored.add(node.state)
+        # Si alguien pasa un f(x) visualize, se llama aqui pa mostrar el nodo en pantalla
+
         if visualize:
             visualize(node)
 
+
+        # genera nodos hijos desde nodo actual
+        """ node.expand(problem) → genera todos los nodos hijos desde el nodo actual.
+
+        Para cada hijo:
+
+            Si no está en explored y no está ya en la frontier:
+
+            Comprueba si es meta (goal_test). Si lo es, devuelve la solución enseguida.
+
+            Si no, lo añade a la frontera para explorarlo más adelante. """ 
+
+
         for child in node.expand(problem):
+
+
             if child.state not in explored and child not in frontier:
                 if problem.goal_test(child.state):
                     return child
                 frontier.append(child)
     return None
 
+# CONTUNUE HEREEE
 
 def depth_first_tree_search(problem):
     """
